@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #product_image {
+            width: 50%;
+            height: 500px;
+        }
+
+        .image-card {
+            background-color: grey;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="image-card">
+    <img id="product_image">
+</div>
+
+<h1 id="name"></h1>
+<h3 id="description"></h3>
+<h3 id="price"></h3>
+
+<input type="button" onclick="buy()" value="Order">
+</body>
+<script>
+    const name = localStorage.getItem("item_name");
+    const price = localStorage.getItem("item_price");
+    const image = localStorage.getItem("item_img");
+    const description = localStorage.getItem("item_description");
+
+    document.getElementById("product_image").src = image;
+    document.getElementById("name").innerHTML = name;
+    document.getElementById("description").innerHTML = description;
+    document.getElementById("price").innerHTML = price + "$";
+
+
+    console.log("html");
+
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    function buy() {
+        let amount = prompt("Amount: ");
+        if(amount <= 0)
+            return;
+        orders.push({name, price, image, amount});
+        localStorage.setItem("orders", JSON.stringify(orders));
+        window.document.location = "Products.html";
+    }
+
+</script>
+</html>

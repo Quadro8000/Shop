@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <link rel="stylesheet" href="menu.css">
+    </head>
+	<body>
+		<ul class = "menu">
+            <li><a class="active" href="Main_Menu.html">Home</a></li>
+            <li><a href="Products.html">Products</a></li>
+            <li><a href="Contacts.html">Contact</a></li>
+        </ul>
+		<br>
+		<br>
+		<br>
+		<form>
+			<label for = "First Name">First Name</label>
+			<input type ="text" id = "First Name">
+			<br>
+			<br>
+			<label for = "Last Name">Last Name</label>
+			<input type ="text" id = "Last Name">
+			<br>
+			<br>
+			<label for = "Phone Number">Phone Number</label>
+			<input type="tel" id = "Phone Number">
+			<br>
+			<br>
+			<label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
+            <input type="text" id="adr" name="address" placeholder="542 W. 15th Street">
+			<br>
+			<br>
+            <label for="city"><i class="fa fa-institution"></i> City</label>
+            <input type="text" id="city" name="city" placeholder="New York">
+			<br>
+			<br>
+			<label for="cname">Name on Card</label>
+            <input type="text" id="cname" name="cardname" placeholder="John More Doe">
+            <br>
+			<br>
+			<label for="ccnum">Credit card number</label>
+            <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
+			<div id = "cart">
+				<h1 id = "totalPriceH1"></h1>
+			</div>
+			<input type="submit">
+			<br>
+			<br>
+			<input type="reset">
+		</form>
+		
+	</body>
+	<script>
+		let orders = JSON.parse(localStorage.getItem("orders"))
+		let totalPrice = 0;
+
+		let priceElement
+		for (let i = 0; i < orders.length; i++){
+			let productElement = document.createElement("h1");
+			document.getElementById("cart").appendChild(productElement);
+			productElement.innerHTML = orders[i].amount + " " + orders[i].name;
+			console.log(orders);
+			priceElement = document.getElementById("totalPriceH1");
+			totalPrice += orders[i].price * orders[i].amount
+			priceElement.innerHTML = "Total Price: " + totalPrice;
+
+		}
+	</script>
+</html>

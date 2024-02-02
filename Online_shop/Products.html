@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="menu.css">
+	</head>
+	
+	<body>
+
+		<div class = "container">
+			<ul id = "products"></ul>
+		</div>
+		
+		<ul class = "menu">
+		  <li><a class="active" href="Main_Menu.html">Home</a></li>
+		  <li><a href="Products.html">Products</a></li>
+		  <li><a href="Contacts.html">Contact</a></li>
+		</ul>
+		<input type = "button"  onclick = "clearCart()" value = "clear cart">
+		<br>
+		<br>
+		<input type = "button"  onclick = "buy()" value = "buy">
+
+		<div id = "cart">
+			<h1 id = "totalPriceH1"></h1>
+		</div>
+	</body>
+	
+	<script>
+		
+
+		console.log("hello");
+
+		class Product {
+		  constructor(name, price, image, description) {
+			this.name = name;
+			this.price = price;
+			this.image = image;
+			this.description = description;
+		  }
+		}
+		
+		const products = [
+			new Product("Pizza", 10, "https://www.foodandwine.com/thmb/Wd4lBRZz3X_8qBr69UOu2m7I2iw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/classic-cheese-pizza-FT-RECIPE0422-31a2c938fc2546c9a07b7011658cfd05.jpg"
+			, "Good pizza made by who knows"),
+			new Product("Spaghetti", 8, "https://www.inspiredtaste.net/wp-content/uploads/2019/03/Spaghetti-with-Meat-Sauce-Recipe-1-1200.jpg"
+			, "Spaghetti made with hotdog"),
+			new Product("Carbonara", 8, "https://www.recipetineats.com/wp-content/uploads/2023/01/Carbonara_6a.jpg?w=500&h=500&crop=1"
+			, "'Carbonara' made in the Philippines"),
+			new Product("Risotto",15,"https://hips.hearstapps.com/hmg-prod/images/del089923-risotto-web-001-ab-index-64e7a1083b54e.jpg?crop=0.6666666666666666xw:1xh;center,top&resize=1200:*"
+			, "Wet rice"),
+			new Product("Lasagna", 9, "https://static01.nyt.com/images/2023/08/31/multimedia/RS-Lasagna-hkjl/RS-Lasagna-hkjl-superJumbo.jpg"
+			,"Layers of meat to make this lasagna"),
+			new Product("Fettucine Alfredo", 10, "https://www.modernhoney.com/wp-content/uploads/2018/08/Fettuccine-Alfredo-Recipe-1.jpg"
+			,"Butter Sauce"),
+
+		];
+		
+		let ul = document.getElementById("products");
+
+		function create_Item(item){
+			let li = document.createElement("li");
+			let a = document.createElement("a");
+			let img = document.createElement("img");
+			let product_card_container = document.createElement("div");
+			let title_item = document.createElement("div")
+			let price_item = document.createElement("div");
+
+			title_item.className = "title_item"
+			img.className = "image_item"
+			price_item.className = "price_item"
+			product_card_container.className = "product_card_container";
+			
+			img.src = item.image;
+			ul.appendChild(li);
+			li.appendChild(a);
+			a.appendChild(product_card_container);
+			product_card_container.appendChild(img);
+			product_card_container.appendChild(title_item);
+			product_card_container.appendChild(price_item);
+			title_item.innerHTML = item.name;
+			price_item.innerHTML = item.price+"$";
+
+			a.onclick = function(){
+				localStorage.setItem("item_name", item.name);
+				localStorage.setItem("item_price", item.price);
+				localStorage.setItem("item_img", item.image);
+				localStorage.setItem("item_description", item.description);
+
+				window.location.href = "Product.html";
+			}
+		}
+
+		for (let i = 0; i < products.length; i++) {
+			create_Item(products[i]);
+		}
+		let orders = JSON.parse(localStorage.getItem("orders"))
+		let totalPrice = 0;
+
+		let priceElement
+		for (let i = 0; i < orders.length; i++){
+			let productElement = document.createElement("h1");
+			document.getElementById("cart").appendChild(productElement);
+			productElement.innerHTML = orders[i].amount + " " + orders[i].name;
+			console.log(orders);
+			priceElement = document.getElementById("totalPriceH1");
+			totalPrice += orders[i].price * orders[i].amount
+			priceElement.innerHTML = "Total Price: " + totalPrice;
+
+		};
+
+		function buy(){
+			window.document.location = "Order-Form.html"
+		}
+
+		function clearCart(){
+			console.log("cleared");
+			orders = [];
+			localStorage.setItem("orders", JSON.stringify(orders));
+			location.reload();
+		}
+
+		
+	</script>
+</html>
